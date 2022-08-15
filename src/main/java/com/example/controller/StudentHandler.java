@@ -1,7 +1,7 @@
 package com.example.controller;
 
 import com.example.entity.Student;
-import com.example.entitydao.StudentDAOImpl;
+import com.example.service.StudentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,16 +12,16 @@ import java.util.List;
 @RequestMapping("/v1")
 public class StudentHandler {
     @Autowired
-    private StudentDAOImpl studentDAO;
+    private StudentServiceImpl studentService;
 
     @GetMapping("/students")
     public List<Student> getStudents() {
-        return studentDAO.getAllStudents();
+        return studentService.getAllStudents();
     }
 
     @GetMapping("/students/{id}")
-    public Student getStudent(@PathParam("id") Long id) {
-        Student student = studentDAO.getStudentById(id);
+    public Student getStudent(@PathVariable Long id) {
+        Student student = studentService.getStudentById(id);
 
         return student;
     }
@@ -32,13 +32,13 @@ public class StudentHandler {
         newStudent.setName(student.getName());
         newStudent.setRoll_number(student.getRoll_number());
 
-        Student dbStudent = studentDAO.addStudent(student);
+        Student dbStudent = studentService.addStudent(student);
 
         return dbStudent;
     }
 
     @DeleteMapping("/students/{id}")
-    public void deleteStudent(@RequestParam("id") Long id) {
-        studentDAO.deleteStudent(id);
+    public void deleteStudent(Long id) {
+        studentService.deleteStudent(id);
     }
 }
