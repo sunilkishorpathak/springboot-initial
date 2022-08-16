@@ -37,15 +37,15 @@ public class StudentDAOImpl implements  StudentDAO{
     public Student addStudent(Student student) {
         Student dbStudent = entityManager.merge(student);
 
-        student.setId(dbStudent.getId());
+        student.setStudentId(dbStudent.getStudentId());
 
         return student;
     }
 
     @Override
-    public void deleteStudent(Long id) {
+    public void deleteStudent(Long studentId) {
         Query theQuery = (Query) entityManager.createQuery("delete from Student where id=:studentId");
-        theQuery.setParameter("transactionId", id);
+        theQuery.setParameter("studentId", studentId);
         theQuery.executeUpdate();
     }
 }
