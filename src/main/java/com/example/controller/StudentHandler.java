@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import com.example.entity.Student;
+import com.example.exception.CustomException;
 import com.example.service.StudentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,11 @@ public class StudentHandler {
     }
 
     @GetMapping("/students/{id}")
-    public Student getStudent(@PathVariable Long id) {
+    public Student getStudent(@PathVariable Long id) throws Exception {
+        if (id < 0) {
+            throw new CustomException("Wrong input", "id must be greater than 0");
+            //throw new Exception("Invalid id"); //4xx
+        }
         Student student = studentService.getStudentById(id);
 
         return student;
